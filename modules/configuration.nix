@@ -93,7 +93,7 @@
       sbctl sops ssh-to-age
       tcpdump tree
       util-linux unzip
-      vim
+      vim vlc
       wget
       zed-editor
     ];

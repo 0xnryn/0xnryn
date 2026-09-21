@@ -4,12 +4,18 @@
       pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        {
+        ({ pkgs, ... }: {
           nixpkgs.config.allowUnfree = true;
           home.username = "sudha";
           home.homeDirectory = "/home/sudha";
           home.stateVersion = "26.05";
           programs.home-manager.enable = true;
+          home.packages = with pkgs; [
+            libreoffice
+            discord
+            telegram-desktop
+            rpi-imager
+          ];
           programs.git = {
             enable = true;
             settings.user = {
@@ -17,7 +23,7 @@
               email = "0xnryn@proton.me";
             };
           };
-        }
+        })
       ];
     };
   };

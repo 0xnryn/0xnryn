@@ -1,3 +1,4 @@
+#modules/nixos.nix
 { lib, config, inputs, ... }:
 {
   options.configurations.nixos = lib.mkOption {

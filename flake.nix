@@ -10,6 +10,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,10 +23,8 @@
   inputs.flake-parts.lib.mkFlake { inherit inputs; } {
     imports = [ 
       (inputs.import-tree ./modules) 
-      inputs.cosmic.flakeModules.default
     ];
   };
 }
 
 
-v

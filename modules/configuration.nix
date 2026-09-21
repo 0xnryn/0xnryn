@@ -1,4 +1,5 @@
-{ ... }:
+#modules/configuration.nix
+{ inputs, lib, ... }:
 {
   flake.nixosModules.configuration-0xnryn-15ach6 = { pkgs, config, ... }:
   {
@@ -46,11 +47,6 @@
         "amdgpu.gttsize=16384"
         # "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       ];
-  
-      initrd.availableKernelModules = [ 
-        "nvme" "xhci_pci" "usb_storage" "usbhid" "sd_mod" "tpm_crb" "tpm_tis" 
-      ];
-      initrd.kernelModules = [ ];
     };
 
     hardware = {
@@ -86,7 +82,7 @@
     environment.systemPackages = with pkgs; [
       age age-plugin-tpm android-tools
       bind brave
-      cloudflared curl
+      curl
       droidcam 
       git gptfdisk
       home-manager htop helix
@@ -99,7 +95,7 @@
       util-linux unzip
       vim
       wget
-      yggdrasil
+      zed-editor
     ];
     
     services = {
@@ -115,38 +111,6 @@
       xserver.videoDrivers = [ 
         "amdgpu" "nvidia" 
       ];
-      yggdrasil = {
-        enable = true;
-        openMulticastPort = true;
-        settings = {
-          IfName = "ygg0";
-          Listen = [ "tcp://0.0.0.0:53535" ];
-          NodeInfoPrivacy = true;
-          Peers = [         
-            #india
-            "tls://ins.8px.sk:4321"
-            "quic://ins.8px.sk:4321"
-            #hongkong
-            "tcp://ygg5.mk16.de:1337?key=0000009611ae5391dc0aceea9f3fa6a0dc1279f4306059339e84bfb8b74d2f9b"
-            "tls://ygg5.mk16.de:1338?key=0000009611ae5391dc0aceea9f3fa6a0dc1279f4306059339e84bfb8b74d2f9b"
-            "quic://ygg5.mk16.de:1339?key=0000009611ae5391dc0aceea9f3fa6a0dc1279f4306059339e84bfb8b74d2f9b"
-            "ws://ygg5.mk16.de:1340?key=0000009611ae5391dc0aceea9f3fa6a0dc1279f4306059339e84bfb8b74d2f9b"
-            #singapore
-            "tls://asia.deinfra.org:15015"
-            "quic://asia.deinfra.org:15015"
-            "tcp://yg-sin.magicum.net:23901"
-            "tls://yg-sin.magicum.net:23900"
-          ];
-          MulticastInterfaces = [
-            {
-              Regex = ".*";
-              Beacon = true;
-              Listen = true;
-              Port = 9001;
-            }
-          ];
-        };
-      };
     };
   };
 }

@@ -96,6 +96,8 @@
       vim vlc
       wget
       zed-editor
+      proton-pass
+      proton-pass-cli
     ];
 
     networking = {

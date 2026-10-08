@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   configurations.home."sudha@0xnryn-laptop" = {
-    system = "aarch64-linux";
+    system = "x86_64-linux";
     module = {
       imports = [
         inputs.self.homeModules.sudha
@@ -17,6 +17,8 @@
       in
       {
         nixpkgs.hostPlatform = "x86_64-linux";
+        time.timeZone = "Asia/Kolkata";
+        i18n.defaultLocale = "en_US.UTF-8";
         networking = {
           networkmanager.enable = true;
           inherit hostName;

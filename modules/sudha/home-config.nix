@@ -8,14 +8,14 @@
     home.packages = with pkgs; [
       tree
       telegram-desktop
-      libreoffice-fresh
+      libreoffice
       proton-pass
       proton-pass-cli
     ];
     programs.git = {
       enable = true;
-      userName = "0xnryn";
-      userEmail = "0xnryn@proton.me";
+      settings.user.name = "0xnryn";
+      settings.user.email = "0xnryn@proton.me";
     };
   };
 }

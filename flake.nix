@@ -26,8 +26,10 @@
         ./0xnryn/laptop/hardware-configuration.nix
         ./0xnryn/laptop/configuration.nix
         inputs.home-manager.nixosModules.home-manager {
-          home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.users.sudha = import ./0xnryn/sudha/home-config.nix;
+          home-manager = { 
+            extraSpecialArgs = { inherit inputs; };
+            users.sudha = import ./0xnryn/sudha/home-config.nix;
+          };
         }
       ];
     };

@@ -18,22 +18,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs: {
-    nixosConfigurations."0xnryn-laptop" = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./0xnryn/laptop/hardware-configuration.nix
-        ./0xnryn/laptop/configuration.nix
-        inputs.home-manager.nixosModules.home-manager {
-          home-manager = { 
-            extraSpecialArgs = { inherit inputs; };
-            users.sudha = import ./0xnryn/sudha/home-config.nix;
-          };
-        }
-      ];
-    };
-  };
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; }
+      # Imports all of the top-level modules (the files under `./modules`)
+      (inputs.import-tree ./modules);
 }
 
 

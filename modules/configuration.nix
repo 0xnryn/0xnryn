@@ -92,11 +92,15 @@
       ryzenadj
       sbctl sops ssh-to-age
       tcpdump tree
-      util-linux unzip
+      util-linux unzip uv
       vim vlc
       wget
       zed-editor
     ];
+
+    networking = {
+      firewall.enable = false;
+    };
     
     services = {
       printing.enable = true;

@@ -23,6 +23,7 @@
       kdePackages.isoimagewriter
       kdePackages.partitionmanager
       kdePackages.filelight
+      kdePackages.kdeconnect-kde
       kdiff3
       hardinfo2
       wayland-utils

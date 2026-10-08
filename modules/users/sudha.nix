@@ -14,8 +14,7 @@
             libreoffice
             discord
             telegram-desktop
-            rpi-imager
-          ];
+         ];
           programs.git = {
             enable = true;
             settings.user = {

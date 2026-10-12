@@ -16,12 +16,17 @@
         hostName = "0xnryn-laptop";
       in
       {
+        system.stateVersion = "26.05"; 
         nixpkgs.hostPlatform = "x86_64-linux";
         time.timeZone = "Asia/Kolkata";
         i18n.defaultLocale = "en_US.UTF-8";
         networking = {
           networkmanager.enable = true;
           inherit hostName;
+        };
+        sops = {
+          age.keyFile = "/etc/${hostName}.txt";
+          defaultSopsFile = ../secrets/${hostName}.yaml;
         };
         users.users.sudha = {
           isNormalUser = true;
@@ -37,6 +42,9 @@
           inputs.sops-nix.nixosModules.sops
           inputs.self.nixosModules."configuration-${hostName}"
           inputs.self.nixosModules."hardware-${hostName}"
+          inputs.self.nixosModules.hardware-15ach6
+          inputs.self.nixosModules.networking
+          inputs.self.nixosModules.sops
         ];
       };
     };

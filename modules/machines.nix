@@ -16,7 +16,7 @@
       {
         networking = { networkmanager.enable = true; inherit hostName; };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
-        sops.age.keyFile = "/etc/${hostName}.txt"
+        sops.age.keyFile = "/etc/${hostName}.txt";
         users.users.sudha = { isNormalUser = true;
           extraGroups = [ "wheel" "docker" "dialout" ];
         };

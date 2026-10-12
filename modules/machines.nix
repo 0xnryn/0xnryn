@@ -9,28 +9,16 @@
     };
   };
   configurations.nixos = {
-    "0xnryn-laptop" = {
+    "0xnryn-laptop0" = {
       system = "x86_64-linux";
       module = { ... }:
-      let
-        hostName = "0xnryn-laptop";
-      in
+      let hostName = "0xnryn-laptop"; in
       {
-        system.stateVersion = "26.05"; 
-        nixpkgs.hostPlatform = "x86_64-linux";
-        time.timeZone = "Asia/Kolkata";
-        i18n.defaultLocale = "en_US.UTF-8";
-        networking = {
-          networkmanager.enable = true;
-          inherit hostName;
-        };
-        sops = {
-          age.keyFile = "/etc/${hostName}.txt";
-          defaultSopsFile = ../secrets/${hostName}.yaml;
-        };
-        users.users.sudha = {
-          isNormalUser = true;
-          extraGroups = [ "wheel" "docker" "dialout" ]; # Enable ‘sudo’ for the user.
+        networking = { networkmanager.enable = true; inherit hostName; };
+        sops.defaultSopsFile = ../secrets/${hostName}.yaml;
+        sops.age.keyFile = "/etc/${hostName}.txt"
+        users.users.sudha = { isNormalUser = true;
+          extraGroups = [ "wheel" "docker" "dialout" ];
         };
         home-manager.users.sudha = {
           imports = [
@@ -40,11 +28,28 @@
         imports = [
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
-          inputs.self.nixosModules."configuration-${hostName}"
-          inputs.self.nixosModules."hardware-${hostName}"
-          inputs.self.nixosModules.hardware-15ach6
-          inputs.self.nixosModules.networking
-          inputs.self.nixosModules.sops
+          inputs.lanzaboote.nixosModules.lanzaboote
+        ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
+          "15ach6" "secrets" "configuration" "networking" "gnome" "ollama"  
+        ];
+      };
+    };
+    "0xnryn-server0" = {
+      system = "x86_64-linux";
+      module = { ... }:
+      let hostName = "0xnryn-server0"; in
+      {
+        networking = { networkmanager.enable = true; inherit hostName; };
+        sops.defaultSopsFile = ../secrets/${hostName}.yaml;
+        sops.age.keyFile = "/etc/${hostName}"
+        users.users.sudha = { isNormalUser = true;
+          extraGroups = [ "wheel" "docker" "dialout" ];
+        };
+        imports = [
+          inputs.home-manager.nixosModules.home-manager
+          inputs.sops-nix.nixosModules.sops
+        ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
+          "generic-server" "secrets" "configuration" "networking"
         ];
       };
     };

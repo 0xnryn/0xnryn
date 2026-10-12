@@ -1,7 +1,8 @@
-{ inputs, ... }:
+{ ... }:
 {
   flake.nixosModules.networking = { config, lib, pkgs, ... }:
   {
+    
     # Open ports in the firewall.
     networking.firewall =
     let

@@ -7,3 +7,9 @@ creation_rules:
       - age:
           - *admin
           - *0xnryn-laptop
+  - path_regex: secrets/0xnryn-server.yaml
+    key_groups:
+      - age:
+          - *admin
+          - *0xnryn-laptop
+          - *0xnryn-server

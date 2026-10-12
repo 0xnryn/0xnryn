@@ -1,6 +1,7 @@
 { ... }:
 {
   flake.homeModules.sudha = { pkgs, lib, ... }: {
+    nixpkgs.config.allowUnfree = true;
     home.username = "sudha";
     home.homeDirectory = "/home/sudha";
     home.stateVersion = "26.05";
@@ -12,6 +13,12 @@
       proton-pass
       proton-pass-cli
       platformio
+      uv
+      vscode
+      brave
+      android-tools
+      minicom
+      
       
 
       gnomeExtensions.clipboard-indicator
@@ -42,6 +49,7 @@
       enable = true;
       settings.user.name = "0xnryn";
       settings.user.email = "0xnryn@proton.me";
+      
     };
   };
 }

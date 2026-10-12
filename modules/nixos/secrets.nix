@@ -1,6 +1,6 @@
-{ inputs, ... }:
+{ ... }:
 {
-  flake.nixosModules.sops = { config, lib, pkgs, ... }:
+  flake.nixosModules.secrets = { config, lib, pkgs, ... }:
   {
     sops = {
       useTmpfs = true; # Relative path to your encrypted sops file

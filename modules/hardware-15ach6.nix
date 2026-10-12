@@ -2,6 +2,7 @@
 {
   flake.nixosModules.hardware-15ach6 = { config, lib, pkgs, ... }:
   {
+    services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
     boot = {
       loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
@@ -11,7 +12,6 @@
       kernelModules = [ "kvm-amd" ];
       extraModulePackages = [ ];
     };
-    services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
     hardware = {
       cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       graphics = {

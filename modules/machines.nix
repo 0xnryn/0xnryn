@@ -9,7 +9,7 @@
     };
   };
   configurations.nixos = {
-    "0xnryn-laptop0" = {
+    "0xnryn-laptop" = {
       system = "x86_64-linux";
       module = { ... }:
       let hostName = "0xnryn-laptop"; in
@@ -41,7 +41,7 @@
       {
         networking = { networkmanager.enable = true; inherit hostName; };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
-        sops.age.keyFile = "/etc/${hostName}"
+        sops.age.keyFile = "/etc/${hostName}";
         users.users.sudha = { isNormalUser = true;
           extraGroups = [ "wheel" "docker" "dialout" ];
         };

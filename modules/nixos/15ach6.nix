@@ -6,7 +6,16 @@
     services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
     boot = {
       loader.systemd-boot.enable = lib.mkForce false;
-      lanzaboote = { enable = true; pkiBundle = "/var/lib/sbctl"; };
+      lanzaboote = {
+        enable = true;
+        pkiBundle = "/var/lib/sbctl";
+        autoGenerateKeys.enable = true;
+        autoEnrollKeys = {
+          enable = true;
+          includeMicrosoftKeys = true;
+          autoReboot = true;
+        };
+      };
       loader.efi.canTouchEfiVariables = true;
       kernelPackages = pkgs.linuxPackages_latest;
       initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];

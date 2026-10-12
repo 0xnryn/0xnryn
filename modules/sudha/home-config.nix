@@ -11,7 +11,33 @@
       libreoffice
       proton-pass
       proton-pass-cli
+      platformio
+      
+
+      gnomeExtensions.clipboard-indicator
+      gnomeExtensions.appindicator
+      gnomeExtensions.dash-to-dock
+      gnomeExtensions.gsconnect
+      gnomeExtensions.caffeine
+      gnomeExtensions.impatience
+      gnomeExtensions.blur-my-shell
     ];
+    dconf = {
+      enable = true;
+      settings = {
+        "org/gnome/shell" = {
+          enabled-extensions = [
+            pkgs.gnomeExtensions.clipboard-indicator.extensionUuid
+            pkgs.gnomeExtensions.appindicator.extensionUuid
+            pkgs.gnomeExtensions.dash-to-dock.extensionUuid
+            pkgs.gnomeExtensions.gsconnect.extensionUuid
+            pkgs.gnomeExtensions.caffeine.extensionUuid
+            pkgs.gnomeExtensions.impatience.extensionUuid
+            pkgs.gnomeExtensions.blur-my-shell.extensionUuid
+          ];
+        };
+      };
+    };
     programs.git = {
       enable = true;
       settings.user.name = "0xnryn";

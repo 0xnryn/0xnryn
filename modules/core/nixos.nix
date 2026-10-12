@@ -1,3 +1,4 @@
+# credits: https://github.com/mightyiam/dendritic
 # Provides an option for declaring NixOS configurations.
 # These configurations end up as flake outputs under `#nixosConfigurations."<name>"`.
 # A check for the toplevel derivation of each configuration also ends

@@ -25,7 +25,7 @@
         };
         users.users.sudha = {
           isNormalUser = true;
-          extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+          extraGroups = [ "wheel" "docker" "dialout" ]; # Enable ‘sudo’ for the user.
         };
         home-manager.users.sudha = {
           imports = [

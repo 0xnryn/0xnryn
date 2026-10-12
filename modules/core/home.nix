@@ -1,3 +1,4 @@
+# credits: https://github.com/mightyiam/dendritic
 # Provides an option for declaring Home Manager configurations.
 # These configurations end up as flake outputs under `#homeConfigurations."<name>"`.
 # A check for the activation package of each configuration also ends up

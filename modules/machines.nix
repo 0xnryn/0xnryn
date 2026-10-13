@@ -5,6 +5,8 @@
     module = {
       imports = [
         inputs.mango.hmModules.mango
+        inputs.hyprland.homeManagerModules.default
+        inputs.caelestia.homeManagerModules.default
         inputs.mangobar.homeManagerModules.default
         inputs.self.homeModules.sudha
         inputs.self.homeModules.mango
@@ -17,6 +19,7 @@
       module = { ... }:
       let hostName = "0xnryn-laptop"; in
       {
+        nix.settings.trusted-users = [ "root" "@wheel" ];
         networking = { networkmanager.enable = true; inherit hostName; };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
@@ -26,6 +29,8 @@
         home-manager.users.sudha = {
           imports = [
             inputs.mango.hmModules.mango
+            inputs.caelestia.homeManagerModules.default
+            inputs.hyprland.homeManagerModules.default
             inputs.mangobar.homeManagerModules.default
             inputs.self.homeModules.sudha
             inputs.self.homeModules.mango
@@ -36,8 +41,9 @@
           inputs.sops-nix.nixosModules.sops
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.mango.nixosModules.mango
+          inputs.hyprland.nixosModules.default
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "15ach6" "secrets" "configuration" "networking" "mango" "ollama"  
+          "15ach6" "secrets" "configuration" "networking" "hyprland" "ollama"  
         ];
       };
     };

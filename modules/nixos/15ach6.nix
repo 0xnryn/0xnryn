@@ -4,6 +4,7 @@
   {
     security.tpm2.enable = true;
     services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
+    services.power-profiles-daemon.enable = true;
     boot = {
       loader.systemd-boot.enable = lib.mkForce false;
       lanzaboote = {
@@ -25,6 +26,7 @@
     };
 
     hardware = {
+      bluetooth.enable = true;
       cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       graphics = {
         enable = true;

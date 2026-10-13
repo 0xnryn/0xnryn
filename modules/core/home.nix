@@ -36,6 +36,12 @@
     );
   };
 
+  options.flake.homeModules = lib.mkOption {
+    type = lib.types.attrsOf lib.types.deferredModule;
+    default = {};
+    description = "Home Manager modules provided by this flake.";
+  };
+
   config.flake = {
     homeConfigurations = lib.mapAttrs (
       name: cfg:

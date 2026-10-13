@@ -8,7 +8,9 @@
       desktopManager.gnome.enable = true;
     #   gnome.gnome-keyring.enable = true;
     };
-    environment.gnome.excludePackages = (with pkgs; [ epiphany gnome-music gnome-tour totem gnome-maps gnome-weather ]);
+    environment.gnome.excludePackages = (with pkgs; [ 
+      epiphany gnome-music gnome-tour totem gnome-maps gnome-weather 
+    ]);
   };
 }
   

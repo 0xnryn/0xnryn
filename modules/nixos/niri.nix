@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.nixosModules.hyprland = { config, lib, pkgs, ... }:
+  flake.nixosModules.niri = { config, lib, pkgs, ... }:
   {
-    programs.hyprland.enable = true;
+    programs.niri.enable = true;
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
     };

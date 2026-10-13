@@ -19,7 +19,7 @@
       module = { ... }:
       let hostName = "0xnryn-laptop"; in
       {
-        nix.settings.trusted-users = [ "root" "@wheel" ];
+        nix.settings.trusted-users = [ "root" "sudha" ];
         networking = { networkmanager.enable = true; inherit hostName; };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";

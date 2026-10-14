@@ -25,6 +25,8 @@
       android-tools
       minicom
     ];
+    home.file.".config/BraveSoftware/Brave-Browser/NativeMessagingHosts/org.kde.plasma.browser_integration.json".source = 
+    "${pkgs.kdePackages.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
     programs.git = {
       enable = true;
       settings.user.name = "0xnryn";

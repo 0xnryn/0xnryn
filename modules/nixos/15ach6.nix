@@ -55,50 +55,44 @@
     imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
   
     disko.devices = {
-      disk = {
-        main = {
-          type = "disk";
-          # Change this to your actual disk (recommended: use by-id)
-          # device = "/dev/disk/by-id/nvme-XXXX";
-          device = "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_1TB_S5GXNX0R123456";
-          content = {
-            type = "gpt";
-            partitions = {
-              ESP = {
-                size = "1G";
-                type = "EF00";
-                content = {
-                  type = "filesystem";
-                  format = "vfat";
-                  mountpoint = "/boot";
-                  mountOptions = [ "umask=0077" ];
-                };
-              };
-              luks = {
-                size = "100%";
-                content = {
-                  type = "luks";
-                  name = "enc";
-                  settings = {
-                    allowDiscards = true;   # good for SSDs
-                    # keyFile = "/path/to/keyfile";  # optional
-                  };
-                  # For interactive password (recommended for first install):
-                  # passwordFile = "/tmp/secret.key";  # only needed during disko format
-                  crypttabExtraOpts = [ "tpm2-device=auto" ];
-                  content = {
-                    type = "filesystem";
-                    format = "ext4";
-                    mountpoint = "/";
-                    mountOptions = [ "noatime" ];
-                  };
-                };
-              };
-            };
-          };
-        };
-      };
-    };
+	    disk = {
+	      main = {
+		type = "disk";
+		device = "/dev/disk/by-id/nvme-SAMSUNG_MZALQ512HBLU-00BL2_S65DNX2T624732";
+		content = {
+		  type = "gpt";
+		  partitions = {
+		    ESP = {
+		      size = "1G";
+		      type = "EF00";
+		      content = {
+			type = "filesystem";
+			format = "vfat";
+			mountpoint = "/boot";
+			mountOptions = [ "umask=0077" ];
+		      };
+		    };
+		    luks = {
+		      size = "100%";
+		      content = {
+			type = "luks";
+			name = "enc";
+			settings = {
+			  allowDiscards = true;
+			};
+			content = {
+			  type = "filesystem";
+			  format = "ext4";
+			  mountpoint = "/";
+			  mountOptions = [ "noatime" ];
+			};
+		      };
+		    };
+		  };
+		};
+	      };
+	    };
+	  };
   };
 }
   

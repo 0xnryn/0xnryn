@@ -4,13 +4,8 @@
     system = "x86_64-linux";
     module = {
       imports = [
-        inputs.mango.hmModules.mango
-        inputs.hyprland.homeManagerModules.default
         inputs.dms.homeModules.dank-material-shell
-        inputs.caelestia.homeManagerModules.default
-        inputs.mangobar.homeManagerModules.default
         inputs.self.homeModules.sudha
-        inputs.self.homeModules.niri-dms
       ];
     };
   };
@@ -29,23 +24,17 @@
         };
         home-manager.users.sudha = {
           imports = [
-            inputs.mango.hmModules.mango
             inputs.dms.homeModules.dank-material-shell
-            inputs.caelestia.homeManagerModules.default
-            inputs.hyprland.homeManagerModules.default
-            inputs.mangobar.homeManagerModules.default
             inputs.self.homeModules.sudha
-            inputs.self.homeModules.niri-dms
           ];
         };
         imports = [
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
           inputs.lanzaboote.nixosModules.lanzaboote
-          inputs.mango.nixosModules.mango
-          inputs.hyprland.nixosModules.default
+          inputs.disko.nixosModules.disko
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "15ach6" "secrets" "configuration" "networking" "niri" "ollama"  
+          "15ach6" "secrets" "configuration" "networking" "plasma" "ollama"  
         ];
       };
     };

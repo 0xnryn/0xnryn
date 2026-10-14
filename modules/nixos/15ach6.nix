@@ -5,11 +5,6 @@
     security.tpm2.enable = true;
     services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
     services.power-profiles-daemon.enable = true;
-    nix.settings = {
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-    };
     boot = {
       loader.systemd-boot.enable = lib.mkForce false;
       lanzaboote = {
@@ -59,17 +54,50 @@
 
     imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
   
-    fileSystems."/" = { 
-      device = "/dev/disk/by-uuid/4c769794-ba96-43c6-9fc4-271dee45acf5";
-      fsType = "ext4";
+    disko.devices = {
+      disk = {
+        main = {
+          type = "disk";
+          # Change this to your actual disk (recommended: use by-id)
+          # device = "/dev/disk/by-id/nvme-XXXX";
+          device = "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_1TB_S5GXNX0R123456";
+          content = {
+            type = "gpt";
+            partitions = {
+              ESP = {
+                size = "1G";
+                type = "EF00";
+                content = {
+                  type = "filesystem";
+                  format = "vfat";
+                  mountpoint = "/boot";
+                  mountOptions = [ "umask=0077" ];
+                };
+              };
+              luks = {
+                size = "100%";
+                content = {
+                  type = "luks";
+                  name = "crypted";
+                  settings = {
+                    allowDiscards = true;   # good for SSDs
+                    # keyFile = "/path/to/keyfile";  # optional
+                  };
+                  # For interactive password (recommended for first install):
+                  # passwordFile = "/tmp/secret.key";  # only needed during disko format
+                  content = {
+                    type = "filesystem";
+                    format = "ext4";
+                    mountpoint = "/";
+                    mountOptions = [ "noatime" ];
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
     };
-  
-    fileSystems."/boot" = { 
-      device = "/dev/disk/by-uuid/CDB1-D8D1";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-    swapDevices = [ ];
   };
 }
   

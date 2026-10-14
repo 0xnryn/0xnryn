@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  configurations.home."sudha@0xnryn-laptop" = {
+  configurations.home."sudha@0xnryn-laptop0" = {
     system = "x86_64-linux";
     module = {
       imports = [
@@ -10,10 +10,10 @@
     };
   };
   configurations.nixos = {
-    "0xnryn-laptop" = {
+    "0xnryn-laptop0" = {
       system = "x86_64-linux";
       module = { ... }:
-      let hostName = "0xnryn-laptop"; in
+      let hostName = "0xnryn-laptop0"; in
       {
         nix.settings.trusted-users = [ "root" "sudha" ];
         networking = { networkmanager.enable = true; inherit hostName; };

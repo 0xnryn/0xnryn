@@ -1,19 +1,21 @@
 # docs
 command to generate the post quantum password protected age key
 ```bash
-age-keygen -pq | age -p -o admin.age
+nix run nixpkgs#age -- keygen -pq | nix run nixpkgs#age -- -p -o admin.age
 ```
 command to generate the post quantum age key
 ```bash
-age-keygen -pq
+nix run nixpkgs#age -- keygen -pq
 ```
 command to create or edit the secret
 ```bash
-SOPS_AGE_KEY=$(age -d admin.age) sops secrets/$(hostname).yaml
+SOPS_AGE_KEY=$(nix run nixpkgs#age -- -d admin.age) \
+  nix run nixpkgs#sops -- secrets/$(hostname).yaml
 ```
 command to update keys with modified public keys
 ```bash
-SOPS_AGE_KEY=$(age -d admin.age) sops updatekeys secrets/$(hostname).yaml
+SOPS_AGE_KEY=$(nix run nixpkgs#age -- -d admin.age) \
+  nix run nixpkgs#sops -- updatekeys secrets/$(hostname).yaml
 ```
 
 command to give right permission for the age secret
@@ -30,6 +32,11 @@ nix run nixpkgs#yggdrasil -- -genconf | nix run nixpkgs#yggdrasil -- -useconf -e
 command to enroll tpm for decryption of the drive
 ```bash
 sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 /dev/nvme0n1p2
+```
+
+disko command
+```bash
+nix run github:nix-community/disko/latest -- --mode disko --flake .#0xnryn-laptop0
 ```
 
 nix build .#nixosConfigurations.stfs-mqtt-cloud.config.system.build.tarball

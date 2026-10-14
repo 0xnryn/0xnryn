@@ -78,7 +78,7 @@
                 size = "100%";
                 content = {
                   type = "luks";
-                  name = "crypted";
+                  name = "enc";
                   settings = {
                     allowDiscards = true;   # good for SSDs
                     # keyFile = "/path/to/keyfile";  # optional

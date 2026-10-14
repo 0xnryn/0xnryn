@@ -10,12 +10,14 @@
     home.sessionVariables = {
       NIXOS_OZONE_WL = "1";
     };
+    services.gnome-keyring = {
+      enable = true;
+      components = [ "secrets" ];
+    };
     home.packages = with pkgs; [
       tree
       telegram-desktop
       libreoffice
-      proton-pass
-      proton-pass-cli
       platformio
       uv
       vscode

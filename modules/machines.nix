@@ -5,6 +5,7 @@
     module = {
       imports = [
         inputs.dms.homeModules.dank-material-shell
+        inputs.self.homeModules.gnome
         inputs.self.homeModules.sudha
       ];
     };
@@ -25,6 +26,7 @@
         home-manager.users.sudha = {
           imports = [
             inputs.dms.homeModules.dank-material-shell
+            inputs.self.homeModules.gnome
             inputs.self.homeModules.sudha
           ];
         };

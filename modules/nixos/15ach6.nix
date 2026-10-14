@@ -19,7 +19,14 @@
       };
       loader.efi.canTouchEfiVariables = true;
       kernelPackages = pkgs.linuxPackages_latest;
-      initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "tpm_tis" "tpm_crb" ];
+      initrd = {
+        availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "tpm_tis" "tpm_crb" ];
+        systemd.enable = true;   # ← add this
+        luks.devices."enc" = {
+          # do NOT set device here – disko already does it
+          crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-pcrs=7" ];
+        };
+      };
       initrd.kernelModules = [ ];
       kernelModules = [ "kvm-amd" ];
       extraModulePackages = [ ];
@@ -66,30 +73,30 @@
 		      size = "1G";
 		      type = "EF00";
 		      content = {
-			type = "filesystem";
-			format = "vfat";
-			mountpoint = "/boot";
-			mountOptions = [ "umask=0077" ];
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [ "umask=0077" ];
 		      };
 		    };
 		    luks = {
 		      size = "100%";
 		      content = {
-			type = "luks";
-			name = "enc";
-			settings = {
-			  allowDiscards = true;
-			};
-			content = {
-			  type = "filesystem";
-			  format = "ext4";
-			  mountpoint = "/";
-			  mountOptions = [ "noatime" ];
-			};
-		      };
-		    };
-		  };
-		};
+          type = "luks";
+          name = "enc";
+          settings = {
+            allowDiscards = true;
+          };
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/";
+                  mountOptions = [ "noatime" ];
+                };
+              };
+            };
+          };
+        };
 	      };
 	    };
 	  };

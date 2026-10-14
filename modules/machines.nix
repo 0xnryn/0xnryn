@@ -13,9 +13,37 @@
   configurations.nixos = {
     "0xnryn-laptop0" = {
       system = "x86_64-linux";
-      module = { ... }:
+      module = { modulesPath, pkgs, config, ... }:
       let hostName = "0xnryn-laptop0"; in
       {
+        nix.settings.experimental-features = [ "nix-command" "flakes" ];
+        system.stateVersion = "26.05"; 
+        time.timeZone = "Asia/Kolkata"; 
+        i18n.defaultLocale = "en_US.UTF-8";
+        nixpkgs.config.allowUnfree = true;
+        environment.systemPackages = with pkgs; [
+          vim nano wget git sops age home-manager nil nixd tpm2-tools sbctl tpm2-tss
+        ];
+        services = {
+          printing.enable = true;
+          libinput.enable = true;
+          openssh.enable = true;  
+          pipewire = {
+            enable = true;
+            pulse.enable = true;
+          };
+          power-profiles-daemon.enable = true;
+        };
+        hardware = {
+          bluetooth.enable = true;
+          graphics = {
+            enable = true;
+            enable32Bit = true;
+          };
+        };
+        programs.nix-ld.enable = true;
+        security.polkit.enable = true;
+        security.tpm2.enable = true;
         nix.settings.trusted-users = [ "root" "sudha" ];
         networking = { networkmanager.enable = true; inherit hostName; };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
@@ -31,12 +59,14 @@
           ];
         };
         imports = [
+          (modulesPath + "/installer/scan/not-detected.nix")
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.disko.nixosModules.disko
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "15ach6" "secrets" "configuration" "networking" "gnome" "ollama"  
+          "nvme-SAMSUNG_MZALQ512HBLU-00BL2_S65DNX2T624732" "15ach6-nvidia" 
+          "amd-lanzaboote" "secrets" "networking" "plasma"
         ];
       };
     };

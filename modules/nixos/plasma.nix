@@ -7,20 +7,20 @@
         displayManager.plasma-login-manager.enable = true;
     };
 
-    # environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    
-    # ];
+    environment.plasma6.excludePackages = with pkgs.kdePackages; [
+      kmail
+      ktnef
+      kontact
+    ];
 
     environment.systemPackages = with pkgs; [
         # KDE Utilities
-        kdePackages.discover # Optional: Software center for Flatpaks/firmware updates
         kdePackages.kcalc # Calculator
         kdePackages.kcharselect # Character map
         kdePackages.kclock # Clock app
         kdePackages.kcolorchooser # Color picker
         kdePackages.kolourpaint # Simple paint program
         kdePackages.ksystemlog # System log viewer
-        kdePackages.sddm-kcm # SDDM configuration module
         kdiff3 # File/directory comparison tool
         kdePackages.ktorrent
         kdePackages.kdeconnect-kde

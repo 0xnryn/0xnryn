@@ -19,7 +19,7 @@
       };
       loader.efi.canTouchEfiVariables = true;
       kernelPackages = pkgs.linuxPackages_latest;
-      initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
+      initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "tpm_tis" "tpm_crb" ];
       initrd.kernelModules = [ ];
       kernelModules = [ "kvm-amd" ];
       extraModulePackages = [ ];
@@ -85,6 +85,7 @@
                   };
                   # For interactive password (recommended for first install):
                   # passwordFile = "/tmp/secret.key";  # only needed during disko format
+                  crypttabExtraOpts = [ "tpm2-device=auto" ];
                   content = {
                     type = "filesystem";
                     format = "ext4";

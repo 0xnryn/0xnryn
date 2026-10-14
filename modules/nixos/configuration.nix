@@ -27,7 +27,7 @@
     };
 
     environment.systemPackages = with pkgs; [
-      vim nano wget git sops age home-manager nil nixd tpm2-tools sbctl
+      vim nano wget git sops age home-manager nil nixd tpm2-tools sbctl tpm2-tss
     ];
 
   };

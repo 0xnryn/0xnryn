@@ -27,6 +27,11 @@ command to generate the yggdrasil secret in terminal
 nix run nixpkgs#yggdrasil -- -genconf | nix run nixpkgs#yggdrasil -- -useconf -exportkey
 ```
 
+command to enroll tpm for decryption of the drive
+```bash
+sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 /dev/nvme0n1p2
+```
+
 nix build .#nixosConfigurations.stfs-mqtt-cloud.config.system.build.tarball
 
 docker import result/tarball/*.tar.xz stfs-mqtt-cloud:latest

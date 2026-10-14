@@ -34,7 +34,7 @@
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.disko.nixosModules.disko
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "15ach6" "secrets" "configuration" "networking" "plasma" "ollama"  
+          "15ach6" "secrets" "configuration" "networking" "gnome" "ollama"  
         ];
       };
     };

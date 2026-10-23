@@ -3,9 +3,23 @@
   flake.nixosModules.plasma = { config, lib, pkgs, ... }:
   {
     services = {
-        desktopManager.plasma6.enable = true;
-        displayManager.plasma-login-manager.enable = true;
+      desktopManager.plasma6.enable = true;
+      displayManager.plasma-login-manager = {
+        enable = true;
+        settings = {
+          # Configure custom wallpaper for the login greeter
+          "Greeter][Wallpaper][org.kde.image][General" = {
+            Image = "../../wallapers/mountains.jpg";
+          };
+        };
+      };
     };
+
+    systemd.services.plasmalogin.environment = {
+      QT_SCALE_FACTOR = "1.2";
+    };
+
+    
 
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
       kmail

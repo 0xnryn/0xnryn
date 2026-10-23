@@ -14,6 +14,9 @@
       module = { modulesPath, pkgs, config, ... }:
       let hostName = "0xnryn-laptop0"; in
       {
+        environment.sessionVariables = {
+          TPM2TOOLS_TCTI = "device:/dev/tpmrm0";
+        };
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
         system.stateVersion = "26.05"; 
         time.timeZone = "Asia/Kolkata"; 
@@ -21,6 +24,7 @@
         nixpkgs.config.allowUnfree = true;
         environment.systemPackages = with pkgs; [
           vim nano wget git sops age home-manager nil nixd tpm2-tools sbctl tpm2-tss
+          openssl pkg-config gcc tpm2-tss swtpm
         ];
         services = {
           printing.enable = true;
@@ -42,12 +46,13 @@
         programs.nix-ld.enable = true;
         security.polkit.enable = true;
         security.tpm2.enable = true;
+        security.tpm2.pkcs11.enable = true;
         nix.settings.trusted-users = [ "root" "sudha" ];
         networking = { networkmanager.enable = true; inherit hostName; };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
         users.users.sudha = { isNormalUser = true;
-          extraGroups = [ "wheel" "docker" "dialout" ];
+          extraGroups = [ "wheel" "docker" "dialout" "tss" ];
         };
         home-manager.users.sudha = {
           imports = [

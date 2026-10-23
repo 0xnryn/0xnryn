@@ -17,6 +17,13 @@
         allowedTCPPorts = tcpPorts;
         allowedUDPPorts = udpPorts;
       };
+      nameservers = [
+        "45.90.28.17"
+        "45.90.30.17"
+        "2a07:a8c0::a7:5941"
+        "2a07:a8c1::a7:5941"
+      ];
+      networkmanager.dns = "none";
     };
     
     services.yggdrasil = {

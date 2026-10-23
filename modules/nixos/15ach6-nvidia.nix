@@ -2,7 +2,6 @@
 {
   flake.nixosModules."15ach6-nvidia" = { config, lib, pkgs, modulesPath, ... }:
   {
-    
     services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
     hardware = {
       nvidia = {

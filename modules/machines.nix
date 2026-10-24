@@ -17,7 +17,23 @@
         environment.sessionVariables = {
           TPM2TOOLS_TCTI = "device:/dev/tpmrm0";
         };
-        nix.settings.experimental-features = [ "nix-command" "flakes" ];
+        nix = {
+          settings = {
+            experimental-features = [ "nix-command" "flakes" ];
+            substituters = [
+              "https://cache.nixos.org"
+              "https://nix-mirror.freetls.fastly.net"
+              "https://nix-community.cachix.org"
+              "https://cache.numtide.com"
+            ];
+            trusted-public-keys = [
+              "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+              "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+              "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+            ];
+          };
+        };
+        
         system.stateVersion = "26.05"; 
         time.timeZone = "Asia/Kolkata"; 
         i18n.defaultLocale = "en_US.UTF-8";
@@ -48,7 +64,16 @@
         security.tpm2.enable = true;
         security.tpm2.pkcs11.enable = true;
         nix.settings.trusted-users = [ "root" "sudha" ];
-        networking = { networkmanager.enable = true; inherit hostName; };
+        networking = { 
+          networkmanager.enable = true; inherit hostName;
+          networkmanager.dns = "none"; 
+          nameservers = [
+            "45.90.28.151"
+            "45.90.30.151"                
+            "2a07:a8c0::5a:61e3"
+            "2a07:a8c1::5a:61e3"
+          ];
+        };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
         users.users.sudha = { isNormalUser = true;

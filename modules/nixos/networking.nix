@@ -3,27 +3,18 @@
   flake.nixosModules.networking = { config, lib, pkgs, ... }:
   {
     
-    # Open ports in the firewall.
-    networking.firewall =
+    networking.firewall = 
     let
       tcpPorts = [ 22 443 ];
-      udpPorts = [ 443 9001 9002]; 
-    in
-    {
-      enable = true;  
+      udpPorts = [ 443 9001 9002 ];
+    in {
+      enable = true;
       allowedTCPPorts = tcpPorts;
-      allowedUDPPorts = udpPorts;   
+      allowedUDPPorts = udpPorts;
       interfaces."ygg0" = {
         allowedTCPPorts = tcpPorts;
         allowedUDPPorts = udpPorts;
       };
-      nameservers = [
-        "45.90.28.17"
-        "45.90.30.17"
-        "2a07:a8c0::a7:5941"
-        "2a07:a8c1::a7:5941"
-      ];
-      networkmanager.dns = "none";
     };
     
     services.yggdrasil = {
@@ -40,9 +31,6 @@
           "quic://[::]:443"
         ];
         Peers = [
-          # india
-          "tls://ins.8px.sk:4321"
-          "quic://ins.8px.sk:4321"
           # indonesia
           "tls://supanadit.com:15021"
           "quic://supanadit.com:15022"
@@ -55,6 +43,11 @@
           "tcp://ygg-tw.lxak.net:80"
           "tls://ygg-tw.lxak.net:443"
           "tls://cowgl.tech:1337"
+          # singapore
+          "quic://asia.deinfra.org:15015"
+          "tls://asia.deinfra.org:15015"
+          "tls://yg-sin.magicum.net:23900"
+          "tcp://yg-sin.magicum.net:23901"
         ];
 
         # Better control over local multicast discovery

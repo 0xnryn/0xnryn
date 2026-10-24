@@ -7,9 +7,9 @@
       nvidia = {
         modesetting.enable = true;
         open = true;
-        powerManagement.enable = true;
-        powerManagement.finegrained = true;
-        dynamicBoost.enable = true;
+        # powerManagement.enable = true;
+        # powerManagement.finegrained = true;
+        # dynamicBoost.enable = true;
         nvidiaSettings = true;        
         package = config.boot.kernelPackages.nvidiaPackages.stable;
         prime = {

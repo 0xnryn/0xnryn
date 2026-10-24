@@ -1,7 +1,10 @@
 { ... }:
 {
-  flake.nixosModules."nvme-SAMSUNG_MZALQ512HBLU-00BL2_S65DNX2T624732" = { config, lib, pkgs, modulesPath, ... }:
+  flake.nixosModules.mbr-disko = { config, lib, pkgs, modulesPath, ... }:
   {
+    imports = [
+      (modulesPath + "/installer/scan/not-detected.nix")
+    ];
     disko.devices = {
       disk = {
         main = {

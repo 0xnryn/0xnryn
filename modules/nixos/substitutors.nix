@@ -1,9 +1,9 @@
 { ... }:
 {
-  flake.nixosModules.nix = { config, lib, pkgs, ... }:
+  flake.nixosModules.substituters = { config, lib, pkgs, ... }:
   {
     nix = {
-        settings = {
+      settings = {
         experimental-features = [ "nix-command" "flakes" ];
         substituters = [
             "https://cache.nixos.org"
@@ -16,7 +16,7 @@
             "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
             "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
         ];
-        };
+      };
     };
   };
 }

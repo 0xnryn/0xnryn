@@ -2,13 +2,16 @@
 {
   flake.nixosModules."15ach6-nvidia" = { config, lib, pkgs, modulesPath, ... }:
   {
-    services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
+    services.xserver.videoDrivers = [ 
+      "amdgpu" 
+      "nvidia" 
+    ];
     hardware = {
       nvidia = {
         modesetting.enable = true;
         open = true;
-        # powerManagement.enable = true;
-        # powerManagement.finegrained = true;
+        powerManagement.enable = true;
+        powerManagement.finegrained = true;
         # dynamicBoost.enable = true;
         nvidiaSettings = true;        
         package = config.boot.kernelPackages.nvidiaPackages.stable;

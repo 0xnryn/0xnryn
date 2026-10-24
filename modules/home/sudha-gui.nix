@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.homeModules.sudha = { pkgs, lib, ... }: {
+  flake.homeModules.sudha-gui = { pkgs, lib, ... }: {
     nixpkgs.config.allowUnfree = true;
     home.username = "sudha";
     home.homeDirectory = "/home/sudha";
@@ -9,10 +9,6 @@
     xdg.enable = true;
     home.sessionVariables = {
       NIXOS_OZONE_WL = "1";
-    };
-    services.gnome-keyring = {
-      enable = true;
-      components = [ "secrets" ];
     };
     home.packages = with pkgs; [
       tree

@@ -3,20 +3,31 @@
   flake.nixosModules.networking = { config, lib, pkgs, ... }:
   {
     
-    networking.firewall = 
-    let
-      tcpPorts = [ 22 443 ];
-      udpPorts = [ 443 9001 9002 ];
-    in {
-      enable = true;
-      allowedTCPPorts = tcpPorts;
-      allowedUDPPorts = udpPorts;
-      interfaces."ygg0" = {
+    networking = {
+      firewall = 
+      let
+        tcpPorts = [ 22 443 ];
+        udpPorts = [ 443 9001 9002 ];
+      in 
+      {
+        enable = true;
         allowedTCPPorts = tcpPorts;
         allowedUDPPorts = udpPorts;
+        interfaces."ygg0" = {
+          allowedTCPPorts = tcpPorts;
+          allowedUDPPorts = udpPorts;
+        };
       };
+      networkmanager.dns = "none"; 
+      nameservers = [
+        "45.90.28.151"
+        "45.90.30.151"                
+        "2a07:a8c0::5a:61e3"
+        "2a07:a8c1::5a:61e3"
+      ];
     };
-    
+
+
     services.yggdrasil = {
       enable = true;
       openMulticastPort = true;          # local Wi-Fi / LAN discovery

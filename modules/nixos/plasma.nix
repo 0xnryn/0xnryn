@@ -45,7 +45,17 @@
         wayland-utils # Wayland diagnostic tools
         wl-clipboard # Wayland copy/paste support
         vlc # Media player
+        kdePackages.kwallet
+        kdePackages.kwallet-pam # Auto-unlocks wallet at login
+        kdePackages.kwalletmanager # GUI to manage wallet keys
+        libsecret
     ];
+
+    # Enable KWallet integration
+    security.pam.services.kdewallet.enable = true;
+
+    # Ensure D-Bus and libsecret are available for apps like Proton
+    services.dbus.enable = true;
   };
 }
   

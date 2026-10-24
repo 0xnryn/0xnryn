@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.workstation = { config, lib, pkgs, ... }:
+  flake.nixosModules.workstation = { config, lib, pkgs, inputs, ... }:
   {
     system.stateVersion = "26.05"; 
     nix.settings.trusted-users = [ "root" "sudha" ];
@@ -28,7 +28,8 @@
     };
     home-manager.users.sudha = {
         imports = [
-            inputs.self.homeModules.sudha
+            inputs.self.homeModules.sudha-cli
+            inputs.self.homeModules.sudha-gui
         ];
     };
     sops = {

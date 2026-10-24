@@ -12,7 +12,8 @@ in
     system = "x86_64-linux";
     module = {
       imports = [
-        inputs.self.homeModules.sudha
+        inputs.self.homeModules.sudha-gui
+        inputs.self.homeModules.sudha-cli
       ];
     };
   };
@@ -29,8 +30,8 @@ in
           # extraMods
 
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "substitutors" "networking" "workstation" "plasma" "gpt-disko"
-          "amd-lanzaboote" 
+          "substituters" "networking" "workstation" "plasma" 
+          "gpt-disko" "lanzaboote" 
         ];
       };
     };

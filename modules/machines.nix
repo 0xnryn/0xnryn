@@ -31,7 +31,7 @@ in
 
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
-          "gpt-disko" "lanzaboote" 
+          "gpt-disko" "lanzaboote" "ollama"
         ];
       };
     };

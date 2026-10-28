@@ -5,6 +5,7 @@ let
     inputs.sops-nix.nixosModules.sops
     inputs.lanzaboote.nixosModules.lanzaboote
     inputs.disko.nixosModules.disko
+    inputs.nixos-wsl.nixosModules.default
   ];
 in
 {
@@ -32,6 +33,27 @@ in
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
           "gpt-disko" "lanzaboote" "ollama"
+        ];
+      };
+    };
+    "0xnryn-laptop0-wsl" = {
+      system = "x86_64-linux";
+      module = { modulesPath, pkgs, config, ... }:
+      let hostName = "0xnryn-laptop0-wsl"; in
+      {
+        wsl.enable = true;
+        wsl.defaultUser = "sudha";
+        wsl.useWindowsDriver = true;
+        environment.sessionVariables = {
+          LD_LIBRARY_PATH = [ "/usr/lib/wsl/lib" ];
+        };
+        networking = { inherit hostName;};
+        sops.defaultSopsFile = ../secrets/${hostName}.yaml;
+        sops.age.keyFile = "/etc/${hostName}.txt";
+        imports = NixosMods ++ [
+          # extraMods
+        ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
+          "substituters" "workstation-wsl"
         ];
       };
     };

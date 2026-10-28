@@ -21,7 +21,7 @@ in
   configurations.nixos = {
     "0xnryn-laptop0" = {
       system = "x86_64-linux";
-      module = { modulesPath, pkgs, config, ... }:
+      module = { ... }:
       let hostName = "0xnryn-laptop0"; in
       {
         networking = { networkmanager.enable = true; inherit hostName;};
@@ -29,7 +29,6 @@ in
         sops.age.keyFile = "/etc/${hostName}.txt";
         imports = NixosMods ++ [
           # extraMods
-
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
           "gpt-disko" "lanzaboote" "ollama"
@@ -38,7 +37,7 @@ in
     };
     "0xnryn-laptop0-wsl" = {
       system = "x86_64-linux";
-      module = { modulesPath, pkgs, config, ... }:
+      module = { ... }:
       let hostName = "0xnryn-laptop0-wsl"; in
       {
         networking = { inherit hostName;};
@@ -51,22 +50,18 @@ in
         ];
       };
     };
-    "0xnryn-server" = {
+    "0xnryn-server0" = {
       system = "x86_64-linux";
       module = { ... }:
-      let hostName = "0xnryn-server"; in
+      let hostName = "0xnryn-server0"; in
       {
-        networking = { networkmanager.enable = true; inherit hostName; };
+        networking = { inherit hostName;};
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
-        sops.age.keyFile = "/etc/${hostName}";
-        users.users.sudha = { isNormalUser = true;
-          extraGroups = [ "wheel" "docker" ];
-        };
-        imports = [
-          inputs.home-manager.nixosModules.home-manager
-          inputs.sops-nix.nixosModules.sops
+        sops.age.keyFile = "/etc/${hostName}.txt";
+        imports = NixosMods ++ [
+          # extraMods
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "generic-server" "secrets" "configuration" "networking"
+          "substituters" "server" 
         ];
       };
     };

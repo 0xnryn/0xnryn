@@ -2,6 +2,12 @@
 {
   flake.nixosModules.workstation-wsl = { config, lib, pkgs, inputs, ... }:
   {
+    wsl.enable = true;
+    wsl.defaultUser = "sudha";
+    wsl.useWindowsDriver = true;
+    environment.sessionVariables = {
+        LD_LIBRARY_PATH = [ "/usr/lib/wsl/lib" ];
+    };
     system.stateVersion = "26.05"; 
     nix.settings.trusted-users = [ "root" "sudha" ];
     security = { polkit.enable = true; };
@@ -31,19 +37,19 @@
             inputs.self.homeModules.sudha-cli
         ];
     };
-    # sops = {
-    #   useTmpfs = true; # Relative path to your encrypted sops file
-    #   defaultSopsFormat = "yaml";
-    #   secrets = {
-    #     "yggdrasil" = {
-    #       mode = "0400";
-    #       restartUnits = [ "yggdrasil.service" ];
-    #     };
-    #     # "cloudflare" = {
-    #     #   owner = "cloudflared";
-    #     #   group = "cloudflared"; # Explicitly setting group prevents sops-nix auto-lookup error
-    #     # };
-    #   };
-    # };
+    sops = {
+      useTmpfs = true; # Relative path to your encrypted sops file
+      defaultSopsFormat = "yaml";
+      secrets = {
+        "yggdrasil" = {
+          mode = "0400";
+          restartUnits = [ "yggdrasil.service" ];
+        };
+        # "cloudflare" = {
+        #   owner = "cloudflared";
+        #   group = "cloudflared"; # Explicitly setting group prevents sops-nix auto-lookup error
+        # };
+      };
+    };
   };
 }

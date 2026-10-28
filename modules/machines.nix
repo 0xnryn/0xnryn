@@ -41,19 +41,13 @@ in
       module = { modulesPath, pkgs, config, ... }:
       let hostName = "0xnryn-laptop0-wsl"; in
       {
-        wsl.enable = true;
-        wsl.defaultUser = "sudha";
-        wsl.useWindowsDriver = true;
-        environment.sessionVariables = {
-          LD_LIBRARY_PATH = [ "/usr/lib/wsl/lib" ];
-        };
         networking = { inherit hostName;};
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
         imports = NixosMods ++ [
           # extraMods
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "substituters" "workstation-wsl"
+          "substituters" "workstation-wsl" 
         ];
       };
     };

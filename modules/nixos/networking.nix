@@ -18,13 +18,13 @@
           allowedUDPPorts = udpPorts;
         };
       };
-      networkmanager.dns = "none"; 
-      nameservers = [
-        "45.90.28.151"
-        "45.90.30.151"                
-        "2a07:a8c0::5a:61e3"
-        "2a07:a8c1::5a:61e3"
-      ];
+      # networkmanager.dns = "none"; 
+      # nameservers = [
+      #   "45.90.28.151"
+      #   "45.90.30.151"                
+      #   "2a07:a8c0::5a:61e3"
+      #   "2a07:a8c1::5a:61e3"
+      # ];
     };
 
 

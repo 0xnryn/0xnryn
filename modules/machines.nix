@@ -65,5 +65,39 @@ in
         ];
       };
     };
+    configurations.nixOnDroid.phone = {
+      system = "aarch64-linux";
+      specialArgs = {
+        username = "sudha";
+      };
+      module = { pkgs, config, username, ... }: {
+        # Set state version according to nix-on-droid release
+        system.stateVersion = "24.05";
+        # System packages installed in Termux
+        environment.packages = with pkgs; [
+          vim
+          git
+          curl
+          tmux
+          htop
+          ripgrep
+          fd
+        ];
+        # Configure default shell or environment variables
+        environment.sessionVariables = {
+          EDITOR = "vim";
+        };
+        # Optional: Integrated Home-Manager configuration
+        # home-manager = {
+        #   backupFileExtension = "hm-backup";
+        #   useGlobalPkgs = true;
+        #   useUserPackages = true;
+        #   config = {
+        #     programs.bash.enable = true;
+        #     programs.starship.enable = true;
+        #   };
+        # };
+      };
+    };
   };
 }

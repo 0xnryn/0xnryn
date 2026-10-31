@@ -2,6 +2,7 @@
 {
   flake.nixosModules.workstation = { config, lib, pkgs, inputs, ... }:
   {
+    
     system.stateVersion = "26.05"; 
     nix.settings.trusted-users = [ "root" "sudha" ];
     security = { polkit.enable = true; tpm2.enable = true; tpm2.pkcs11.enable = true; };

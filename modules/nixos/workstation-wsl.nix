@@ -2,9 +2,11 @@
 {
   flake.nixosModules.workstation-wsl = { config, lib, pkgs, inputs, ... }:
   {
+    boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     wsl.enable = true;
     wsl.defaultUser = "sudha";
     wsl.useWindowsDriver = true;
+    wsl.interop.register = true;
     environment.sessionVariables = {
         LD_LIBRARY_PATH = [ "/usr/lib/wsl/lib" ];
     };

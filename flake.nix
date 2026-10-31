@@ -2,6 +2,7 @@
   # Declares flake inputs
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs2311.url = "github:nixos/nixpkgs/nixos-23.11";
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";

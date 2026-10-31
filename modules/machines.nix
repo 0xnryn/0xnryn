@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 let
   NixosMods = [
     inputs.home-manager.nixosModules.home-manager
@@ -62,6 +62,23 @@ in
           # extraMods
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "server" 
+        ];
+      };
+    };
+    "0xnryn-server1" = inputs.nixpkgs2311.lib.nixosSystem {
+      system = "aarch64-linux";
+      module = { ... }:
+      let hostName = "0xnryn-server1"; in
+      {
+        networking = { inherit hostName;};
+        sops.defaultSopsFile = ../secrets/${hostName}.yaml;
+        sops.age.keyFile = "/etc/${hostName}.txt";
+        environment.noXlibs = lib.mkForce false;
+        imports = NixosMods ++ [
+          # extraMods
+          "${inputs.nixpkgs2311}/nixos/modules/virtualisation/lxc-container.nix"
+        ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
+          "substituters"  "rn8p_droidspaces"
         ];
       };
     };

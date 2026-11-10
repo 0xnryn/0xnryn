@@ -31,7 +31,7 @@ in
           # extraMods
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
-          "gpt-disko" "lanzaboote" "ollama"
+          "lanzaboote" "ollama" "dualboot"
         ];
       };
     };

@@ -20,8 +20,6 @@
         vim nano wget git sops age home-manager
     ];
     services = {
-        printing.enable = true; 
-        libinput.enable = true;
         openssh.enable = true; 
         pipewire = {
             enable = true; pulse.enable = true;
@@ -32,7 +30,7 @@
     };
     programs.nix-ld.enable = true;
     users.users.sudha = { isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "dialout" ];
+        extraGroups = [ "wheel" "docker" "dialout" ];
     };
     home-manager.users.sudha = {
         imports = [

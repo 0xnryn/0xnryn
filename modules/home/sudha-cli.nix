@@ -4,7 +4,7 @@
     nixpkgs.config.allowUnfree = true;
     home.username = "sudha";
     home.homeDirectory = "/home/sudha";
-    home.stateVersion = "23.11";
+    home.stateVersion = "26.05";
     programs.home-manager.enable = true;
     xdg.enable = true;
     home.packages = with pkgs; [

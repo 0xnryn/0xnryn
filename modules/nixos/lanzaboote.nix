@@ -18,7 +18,6 @@
       kernelPackages = pkgs.linuxPackages_latest;
       initrd = {
         availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "tpm_tis" "tpm_crb" ];
-        systemd.enable = true;   
         luks.devices."enc" = {
           crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-pcrs=7" ];
         };

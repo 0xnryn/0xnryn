@@ -1,7 +1,7 @@
 { ... }:
 {
   # Add mainDiskDevice to the incoming arguments, with a fallback default
-  flake.nixosModules.mbr-disko = { config, pkgs, modulesPath, mainDiskDevice ? "/dev/sda", ... }:
+  flake.nixosModules.mbr-disko = { config, pkgs, modulesPath, root_disk, ... }:
   {
     imports = [
       (modulesPath + "/installer/scan/not-detected.nix")

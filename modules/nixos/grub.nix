@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.grub = { config, lib, pkgs, modulesPath, ... }:
+  flake.nixosModules.grub = { config, lib, pkgs, modulesPath, root_disk, ... }:
   {
     boot = {
       loader.grub.enable = true;

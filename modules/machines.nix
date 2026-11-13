@@ -56,9 +56,9 @@ in
       let hostName = "0xnryn-server0"; in
       {
         networking = { inherit hostName;};
-        _module.args.root_disk = "/dev/disk/by-id/";
-        sops.defaultSopsFile = ../secrets/${hostName}.yaml;
-        sops.age.keyFile = "/etc/${hostName}.txt";
+        _module.args.root_disk = "/dev/disk/by-id/ata-ST3500418AS_9VMVD6SC";
+        # sops.defaultSopsFile = ../secrets/${hostName}.yaml;
+        # sops.age.keyFile = "/etc/${hostName}.txt";
         imports = NixosMods ++ [
           # extraMods
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [

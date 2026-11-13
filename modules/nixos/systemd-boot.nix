@@ -3,17 +3,7 @@
   flake.nixosModules.systemd-boot = { config, lib, pkgs, modulesPath, ... }:
   {
     boot = {
-      loader.systemd-boot.enable = lib.mkForce false;
-      lanzaboote = {
-        enable = true;
-        pkiBundle = "/var/lib/sbctl";
-        autoGenerateKeys.enable = true;
-        autoEnrollKeys = {
-          enable = true;
-          includeMicrosoftKeys = true;
-          autoReboot = true;
-        };
-      };
+      loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
       kernelPackages = pkgs.linuxPackages_latest;
       initrd = {

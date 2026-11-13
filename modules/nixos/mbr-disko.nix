@@ -1,49 +1,36 @@
 { ... }:
 {
-  flake.nixosModules.mbr-disko = { config, lib, pkgs, modulesPath, ... }:
+  # Add mainDiskDevice to the incoming arguments, with a fallback default
+  flake.nixosModules.mbr-disko = { config, pkgs, modulesPath, mainDiskDevice ? "/dev/sda", ... }:
   {
     imports = [
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
+    
     disko.devices = {
       disk = {
         main = {
           type = "disk";
-          device = "/dev/disk/by-id/nvme-SAMSUNG_MZALQ512HBLU-00BL2_S65DNX2T624732";
+          device = root_disk;
           content = {
             type = "gpt";
             partitions = {
-              ESP = {
-                size = "1G";
-                type = "EF00";
-                content = {
-                  type = "filesystem";
-                  format = "vfat";
-                  mountpoint = "/boot";
-                  mountOptions = [ "umask=0077" 
-                  ];
-                };
+              boot = {
+                size = "1M";
+                type = "EF02";
               };
-              luks = {
+              root = {
                 size = "100%";
                 content = {
-                  type = "luks";
-                  name = "enc";
-                  settings = {
-                    allowDiscards = true;
-                  };
-                  content = {
-                    type = "filesystem";
-                    format = "ext4";
-                    mountpoint = "/";
-                  };
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/";
                 };
               };
             };
           };
-	      };
-	    };
-	};
+        };
+      };
+    };
   };
 }
-  

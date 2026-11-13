@@ -56,12 +56,13 @@ in
       let hostName = "0xnryn-server0"; in
       {
         networking = { inherit hostName;};
+        _module.args.root_disk = "/dev/disk/by-id/";
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
         imports = NixosMods ++ [
           # extraMods
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "substituters" "server" 
+          "substituters" "server" "mbr-disko"
         ];
       };
     };

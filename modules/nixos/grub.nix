@@ -10,7 +10,6 @@
         availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "tpm_tis" "tpm_crb" ];
       };
       initrd.kernelModules = [ ];
-      kernelModules = [ ];
       extraModulePackages = [ ];
       kernelModules = [ "kvm-amd" "kvm-intel" ];
     };

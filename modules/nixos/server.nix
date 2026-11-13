@@ -14,7 +14,15 @@
     ];
     services = {
         libinput.enable = true;
-        openssh.enable = true; 
+        openssh = {
+            enable = true;
+            settings = {
+                # Disables root login completely
+                PermitRootLogin = "no"; 
+                # Forces SSH keys instead of allowing passwords
+                PasswordAuthentication = false; 
+            };
+        }; 
     };
     hardware = {
         cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -22,7 +30,10 @@
     };
     programs.nix-ld.enable = true;
     users.users.sudha = { isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "dialout" "tss" ];
+        extraGroups = [ "wheel" "docker" "dialout" "tss" ];
+        openssh.authorizedKeys.keys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAabj1XE8vzYb0MghyLQ3lN9H7fEVTSVoTI8NVs7S0UH sudha@0xnryn-laptop0"
+        ];
     };
     home-manager.users.sudha = {
         imports = [

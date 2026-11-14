@@ -32,6 +32,7 @@ in
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
           "lanzaboote" "ollama" "dualboot-0xnryn-laptop0" "15ach6-nvidia"
+          "tailscale"
         ];
       };
     };

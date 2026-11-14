@@ -41,6 +41,10 @@
           mode = "0400";
           restartUnits = [ "yggdrasil.service" ];
         };
+        "tailscale" = {
+          mode = "0400";
+          restartUnits = [ "tailscaled.service" ];
+        };
         # "cloudflare" = {
         #   owner = "cloudflared";
         #   group = "cloudflared"; # Explicitly setting group prevents sops-nix auto-lookup error

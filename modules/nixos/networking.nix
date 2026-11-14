@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.nixosModules.networking = { config, lib, pkgs, ... }:
-  {
+  { 
     networking = {
       firewall = 
       let
@@ -13,6 +13,10 @@
         allowedTCPPorts = tcpPorts;
         allowedUDPPorts = udpPorts;
         interfaces."ygg0" = {
+          allowedTCPPorts = tcpPorts;
+          allowedUDPPorts = udpPorts;
+        };
+        interfaces."tailscale0" = {
           allowedTCPPorts = tcpPorts;
           allowedUDPPorts = udpPorts;
         };

@@ -5,8 +5,8 @@
     networking = {
       firewall = 
       let
-        tcpPorts = [ 22 443 ];
-        udpPorts = [ 443 9001 9002 ];
+        tcpPorts = [ 22 443 1000];
+        udpPorts = [ 443 9001 9002  1000];
       in 
       {
         enable = true;

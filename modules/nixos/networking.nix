@@ -2,7 +2,6 @@
 {
   flake.nixosModules.networking = { config, lib, pkgs, ... }:
   {
-    
     networking = {
       firewall = 
       let

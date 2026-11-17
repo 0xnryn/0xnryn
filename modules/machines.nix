@@ -6,6 +6,7 @@ let
     inputs.lanzaboote.nixosModules.lanzaboote
     inputs.disko.nixosModules.disko
     inputs.nixos-wsl.nixosModules.default
+    inputs.tsnsrv.nixosModules.default
   ];
 in
 {
@@ -32,7 +33,7 @@ in
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
           "lanzaboote" "ollama" "dualboot-0xnryn-laptop0" "15ach6-nvidia"
-          "tailscale" "kiwix"
+          "kiwix"
         ];
       };
     };
@@ -63,7 +64,7 @@ in
         imports = NixosMods ++ [
           # extraMods
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "substituters" "server" "mbr-disko" "networking"
+          "substituters" "server" "mbr-disko" "networking" "kiwix"
         ];
       };
     };

@@ -43,7 +43,9 @@
         };
         "tailscale" = {
           mode = "0400";
-          restartUnits = [ "tailscaled.service" ];
+          restartUnits = map (name: "tsnsrv-${name}.service") (
+            builtins.attrNames config.services.tsnsrv.services
+          );
         };
         # "cloudflare" = {
         #   owner = "cloudflared";

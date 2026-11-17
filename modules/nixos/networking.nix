@@ -6,7 +6,7 @@
       firewall = 
       let
         tcpPorts = [ 22 443 1000];
-        udpPorts = [ 443 9001 9002  1000];
+        udpPorts = [ 443 9001 9002 9003];
       in 
       {
         enable = true;
@@ -41,8 +41,8 @@
         IfName = "ygg0";
         IfMTU  = 1280;   
         Listen = [
-          "tls://[::]:443"
-          "quic://[::]:443"
+          "tls://[::]:9003"
+          "quic://[::]:9003"
         ];
         Peers = [
           # indonesia

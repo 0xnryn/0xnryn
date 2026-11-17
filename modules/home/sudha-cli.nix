@@ -14,6 +14,7 @@
       android-tools
       minicom
       miktex
+      devenv
     ];
     programs.git = {
       enable = true;

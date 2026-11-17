@@ -28,13 +28,13 @@ in
         networking = { networkmanager.enable = true; inherit hostName;};
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
-        # microvm.host.enable = true;
-        # microvm.vms."0xnryn-microvm0" = {
-        #   flake = inputs.self;
-        # };
+        microvm.host.enable = true;
+        microvm.vms."0xnryn-microvm0" = {
+          flake = inputs.self;
+        };
         imports = NixosMods ++ [
           # extraMods
-          # inputs.microvm.nixosModules.host
+          inputs.microvm.nixosModules.host
           # inputs.microvm.nixosModules.microvm
 
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
@@ -75,7 +75,6 @@ in
         imports = NixosMods ++ [
           # extraMods
           inputs.microvm.nixosModules.host
-          inputs.microvm.nixosModules.microvm
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "server" "mbr-disko" "networking" 
           # "kiwix"

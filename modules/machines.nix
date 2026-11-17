@@ -28,8 +28,15 @@ in
         networking = { networkmanager.enable = true; inherit hostName;};
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
+        # microvm.host.enable = true;
+        # microvm.vms."0xnryn-microvm0" = {
+        #   flake = inputs.self;
+        # };
         imports = NixosMods ++ [
           # extraMods
+          # inputs.microvm.nixosModules.host
+          # inputs.microvm.nixosModules.microvm
+
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
           "lanzaboote" "ollama" "dualboot-0xnryn-laptop0" "15ach6-nvidia"
@@ -61,62 +68,70 @@ in
         _module.args.root_disk = "/dev/disk/by-id/ata-ST3500418AS_9VMVD6SC";
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
+        microvm.host.enable = true;
+        microvm.vms."0xnryn-microvm0" = {
+          flake = inputs.self;
+        };
         imports = NixosMods ++ [
           # extraMods
+          inputs.microvm.nixosModules.host
+          inputs.microvm.nixosModules.microvm
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "substituters" "server" "mbr-disko" "networking" "kiwix"
+          "substituters" "server" "mbr-disko" "networking" 
+          # "kiwix"
         ];
       };
     };
-    "0xnryn-server1" = inputs.nixpkgs2311.lib.nixosSystem {
-      system = "aarch64-linux";
+    "0xnryn-microvm0" = {
+      system = "x86_64-linux";
       module = { ... }:
-      let hostName = "0xnryn-server1"; in
+      let hostName = "0xnryn-microvm0"; in
       {
-        networking = { inherit hostName;};
+        networking = { inherit hostName; };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
-        environment.noXlibs = lib.mkForce false;
-        imports = NixosMods ++ [
-          # extraMods
-          "${inputs.nixpkgs2311}/nixos/modules/virtualisation/lxc-container.nix"
-        ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
-          "substituters"  "rn8p_droidspaces"
-        ];
-      };
-    };
-    configurations.nixOnDroid.phone = {
-      system = "aarch64-linux";
-      specialArgs = {
-        username = "sudha";
-      };
-      module = { pkgs, config, username, ... }: {
-        # Set state version according to nix-on-droid release
-        system.stateVersion = "24.05";
-        # System packages installed in Termux
-        environment.packages = with pkgs; [
-          vim
-          git
-          curl
-          tmux
-          htop
-          ripgrep
-          fd
-        ];
-        # Configure default shell or environment variables
-        environment.sessionVariables = {
-          EDITOR = "vim";
+
+        fileSystems."/" = {
+          device = "none";
+          fsType = "tmpfs";
+          options = [ "defaults" "size=256M" ]; # Capped at 256MB to protect your 512MB RAM limit
         };
-        # Optional: Integrated Home-Manager configuration
-        # home-manager = {
-        #   backupFileExtension = "hm-backup";
-        #   useGlobalPkgs = true;
-        #   useUserPackages = true;
-        #   config = {
-        #     programs.bash.enable = true;
-        #     programs.starship.enable = true;
-        #   };
-        # };
+
+        # MicroVM guest configuration
+        microvm = {
+          hypervisor = "qemu";
+          mem = 512; # 2GB RAM (adjustable based on host constraints)
+          vcpu = 1;
+          shares = [
+            {
+              tag = "ro-store";
+              source = "/nix/store";
+              mountPoint = "/nix/.ro-store";
+            }
+            # {
+            #   tag = "zim-archives";
+            #   source = "/path/to/host/zim/files"; # Where your Kiwix files live on server0
+            #   mountPoint = "/var/www/kiwix";      # Read-only path inside microvm0
+            # }
+          ];
+          interfaces = [
+            {
+              type = "tap";
+              id = "vm-micro0";
+              mac = "02:00:00:00:01:01"; # Explicit MAC address required by microvm.nix
+            }
+          ];
+        };
+
+        imports = 
+        NixosMods ++ [
+          # extraMods
+          inputs.microvm.nixosModules.microvm
+        ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
+          "substituters" 
+          "server" 
+          "networking" 
+        ];
       };
     };
   };

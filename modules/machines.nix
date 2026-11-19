@@ -87,25 +87,29 @@ in
       let hostName = "0xnryn-microvm0"; in
       {
         networking = { inherit hostName; };
-        sops.defaultSopsFile = ../secrets/${hostName}.yaml;
-        sops.age.keyFile = "/etc/${hostName}.txt";
-
         fileSystems."/" = {
           device = "none";
           fsType = "tmpfs";
-          options = [ "defaults" "size=256M" ]; # Capped at 256MB to protect your 512MB RAM limit
+          options = [ "defaults" "size=512M" ]; # Capped at 256MB to protect your 512MB RAM limit
         };
 
         # MicroVM guest configuration
         microvm = {
           hypervisor = "qemu";
-          mem = 512; # 2GB RAM (adjustable based on host constraints)
+          vsock.cid = 3;
+          mem = 1024; # 2GB RAM (adjustable based on host constraints)
           vcpu = 1;
           shares = [
             {
               tag = "ro-store";
               source = "/nix/store";
               mountPoint = "/nix/.ro-store";
+            }
+            {
+              tag = "age-key-share";
+              source = "/etc/microvm";       # Path on the host machine
+              mountPoint = "/etc/microvm";   # Exact path expected by sops-nix inside the guest
+              readOnly = true;                           # Keep it strictly read-only for security
             }
             # {
             #   tag = "zim-archives";
@@ -128,8 +132,8 @@ in
           inputs.microvm.nixosModules.microvm
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" 
-          "server" 
-          "networking" 
+          "microvm" 
+          # "networking" 
         ];
       };
     };

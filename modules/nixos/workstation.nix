@@ -47,6 +47,12 @@
             builtins.attrNames config.services.tsnsrv.services
           );
         };
+        "radicle" = {
+          mode = "0400";
+          restartUnits = lib.optionals config.services.radicle.enable [
+            "radicle-node.service"
+          ];
+        };
         # "cloudflare" = {
         #   owner = "cloudflared";
         #   group = "cloudflared"; # Explicitly setting group prevents sops-nix auto-lookup error

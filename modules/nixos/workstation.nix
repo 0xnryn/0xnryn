@@ -7,7 +7,8 @@
     nix.settings.trusted-users = [ "root" "sudha" ];
     security = { polkit.enable = true; tpm2.enable = true; tpm2.pkcs11.enable = true; };
     nixpkgs.config.allowUnfree = true;
-    time.timeZone = "Asia/Kolkata"; 
+    time.timeZone = "Asia/Kolkata";
+    time.hardwareClockInLocalTime = true; 
     i18n.defaultLocale = "en_US.UTF-8";
     environment.systemPackages = with pkgs; [
         vim nano wget git sops age home-manager tpm2-tools sbctl
@@ -46,12 +47,6 @@
           restartUnits = map (name: "tsnsrv-${name}.service") (
             builtins.attrNames config.services.tsnsrv.services
           );
-        };
-        "radicle" = {
-          mode = "0400";
-          restartUnits = lib.optionals config.services.radicle.enable [
-            "radicle-node.service"
-          ];
         };
         # "cloudflare" = {
         #   owner = "cloudflared";

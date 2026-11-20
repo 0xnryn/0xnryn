@@ -90,9 +90,11 @@ in
         fileSystems."/" = {
           device = "none";
           fsType = "tmpfs";
-          options = [ "defaults" "size=512M" ]; # Capped at 256MB to protect your 512MB RAM limit
+          options = [ "defaults" "size=1024M" ]; # Capped at 256MB to protect your 512MB RAM limit
         };
-
+        sops.defaultSopsFile = ../secrets/${hostName}.yaml;
+        sops.age.keyFile = "/etc/microvm/${hostName}.txt";
+        fileSystems."/etc/microvm".neededForBoot = true;
         # MicroVM guest configuration
         microvm = {
           hypervisor = "qemu";
@@ -107,9 +109,9 @@ in
             }
             {
               tag = "age-key-share";
-              source = "/etc/microvm";       # Path on the host machine
-              mountPoint = "/etc/microvm";   # Exact path expected by sops-nix inside the guest
-              readOnly = true;                           # Keep it strictly read-only for security
+              source = "/etc/microvm";
+              mountPoint = "/etc/microvm";
+              readOnly = true;
             }
             # {
             #   tag = "zim-archives";
@@ -133,7 +135,7 @@ in
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" 
           "microvm" 
-          # "networking" 
+          "networking" 
         ];
       };
     };

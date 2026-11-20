@@ -91,3 +91,13 @@ docker exec -it stfs-mqtt-cloud /run/current-system/sw/bin/bash
 
 echo "ey..." | base64 -d
 
+mkpasswd -m yescrypt
+```bash
+
+CONF=$(nix run nixpkgs#yggdrasil -- -genconf)
+
+echo "Private Key: $(echo "$CONF" | grep -oE '[0-9a-f]{128}')"
+echo "$CONF" | nix run nixpkgs#yggdrasil -- -useconf -exportkey
+echo "Public Key:  $(echo "$CONF" | nix run nixpkgs#yggdrasil -- -useconf -publickey)"
+echo "IPv6 Addr:   $(echo "$CONF" | nix run nixpkgs#yggdrasil -- -useconf -address)"
+```

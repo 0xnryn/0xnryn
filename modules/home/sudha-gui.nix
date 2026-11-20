@@ -26,7 +26,7 @@
       proton-authenticator
       proton-vpn
       kiwix
-    ];
+      discord    ];
     home.file.".config/BraveSoftware/Brave-Browser/NativeMessagingHosts/org.kde.plasma.browser_integration.json".source = 
     "${pkgs.kdePackages.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
   };

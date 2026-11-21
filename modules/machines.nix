@@ -25,9 +25,54 @@ in
       module = { ... }:
       let hostName = "0xnryn-laptop0"; in
       {
-        networking = { networkmanager.enable = true; inherit hostName;};
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/${hostName}.txt";
+
+       # 1. Create the bridge and assign the host IP
+         systemd.network = {
+          enable = true;
+          wait-online.enable = false; # Don't block boot waiting for virtual interfaces
+
+          netdevs."10-microbr".netdevConfig = {
+            Kind = "bridge";
+            Name = "microbr";
+          };
+
+          networks."10-microbr" = {
+            matchConfig.Name = "microbr";
+            address = [ "10.0.100.1/24" ];
+            networkConfig = {
+              ConfigureWithoutCarrier = true;
+              DHCPServer = true; # Automatically gives VMs 10.0.100.x + sets gateway to 10.0.100.1
+            };
+            dhcpServerConfig = {
+              EmitDNS = true;
+              DNS = [ "9.9.9.9" "149.112.112.112" ];
+            };
+          };
+          # 2. Declaratively plug ANY vm-* tap device into microbr the moment it appears
+          networks."11-microvm-tap" = {
+            matchConfig.Name = "vm-*";
+            networkConfig.Bridge = "microbr";
+          };
+        };
+
+        networking = {
+          inherit hostName;
+          networkmanager = {
+            enable = true;
+            unmanaged = [ "microbr" "interface-name:vm-*" ];
+          };
+          nat = {
+            enable = true;
+            internalInterfaces = [ "microbr" ];
+          };
+          firewall.trustedInterfaces = [ "microbr" ];
+        };
+
+
+
+
         microvm.host.enable = true;
         microvm.vms."0xnryn-microvm0" = {
           flake = inputs.self;
@@ -35,8 +80,6 @@ in
         imports = NixosMods ++ [
           # extraMods
           inputs.microvm.nixosModules.host
-          # inputs.microvm.nixosModules.microvm
-
         ] ++ map (moduleName: inputs.self.nixosModules.${moduleName}) [
           "substituters" "networking" "workstation" "plasma" 
           "lanzaboote" "ollama" "dualboot-0xnryn-laptop0" "15ach6-nvidia"
@@ -86,11 +129,21 @@ in
       module = { ... }:
       let hostName = "0xnryn-microvm0"; in
       {
-        networking = { inherit hostName; };
+        nix = {
+          enable = true;
+          # Optional: reuse the host's nixpkgs store path so `nix run nixpkgs#...`
+          # does not download and unpack a ~200 MB tarball into your 1024M tmpfs
+          registry.nixpkgs.flake = inputs.nixpkgs;
+        };
+        networking = {
+          inherit hostName;
+          useDHCP = true; # Just ask microbr for an IP on boot
+        };
+
         fileSystems."/" = {
           device = "none";
           fsType = "tmpfs";
-          options = [ "defaults" "size=1024M" ]; # Capped at 256MB to protect your 512MB RAM limit
+          options = [ "defaults" "size=1024M" "mode=0755" ]; # Capped at 256MB to protect your 512MB RAM limit
         };
         sops.defaultSopsFile = ../secrets/${hostName}.yaml;
         sops.age.keyFile = "/etc/microvm/${hostName}.txt";
@@ -113,17 +166,12 @@ in
               mountPoint = "/etc/microvm";
               readOnly = true;
             }
-            # {
-            #   tag = "zim-archives";
-            #   source = "/path/to/host/zim/files"; # Where your Kiwix files live on server0
-            #   mountPoint = "/var/www/kiwix";      # Read-only path inside microvm0
-            # }
           ];
           interfaces = [
             {
               type = "tap";
-              id = "vm-micro0";
-              mac = "02:00:00:00:01:01"; # Explicit MAC address required by microvm.nix
+              id = "vm-microvm0";
+              mac = "02:00:00:00:01:01";
             }
           ];
         };

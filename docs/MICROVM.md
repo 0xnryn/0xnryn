@@ -98,3 +98,6 @@ sudo chown -R microvm:kvm /etc/microvm
 sudo chmod 0750 /etc/microvm
 sudo chmod 0440 /etc/microvm/0xnryn-microvm0.txt
 ```
+```bash
+ssh-keygen -t ed25519 -N "" -C "root@0xnryn-microvm0" -f /tmp/ssh_host_ed25519_key && cat /tmp/ssh_host_ed25519_key && rm -f /tmp/ssh_host_ed25519_key*
+```

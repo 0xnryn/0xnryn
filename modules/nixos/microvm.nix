@@ -17,10 +17,10 @@
         openssh = {
             enable = true;
             settings = {
-                # # Disables root login completely
-                # PermitRootLogin = "no"; 
-                # # Forces SSH keys instead of allowing passwords
-                # PasswordAuthentication = false; 
+                # Disables root login completely
+                PermitRootLogin = "no"; 
+                # Forces SSH keys instead of allowing passwords
+                PasswordAuthentication = false; 
             };
         }; 
     };
